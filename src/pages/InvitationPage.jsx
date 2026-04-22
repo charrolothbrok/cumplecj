@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import GiftIntro from '../components/GiftIntro'
+import LetterIntro from '../components/LetterIntro'
 import Hero from '../components/Hero'
 import Countdown from '../components/Countdown'
 import Party from '../components/Party'
@@ -13,7 +13,7 @@ export default function InvitationPage() {
   const [showInvitation, setShowInvitation] = useState(false)
 
   if (!showInvitation) {
-    return <GiftIntro onOpen={() => setShowInvitation(true)} />
+    return <LetterIntro onOpen={() => setShowInvitation(true)} />
   }
 
   return (
