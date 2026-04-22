@@ -1,394 +1,77 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
-import { Send, CheckCircle } from 'lucide-react'
 import { confirmacionesDB } from '../lib/supabase'
 
 export default function RSVP() {
-  const [formData, setFormData] = useState({
-    nombre: '',
-    telefono: '',
-    numPersonas: '1',
-    asistira: true,
-    restriccionAlimentaria: '',
-    mensaje: ''
-  })
-
-  const [submitted, setSubmitted] = useState(false)
+  const [form, setForm] = useState({ nombre: '', telefono: '', num_personas: 1, asistira: true, restriccion_alimentaria: '', mensaje: '' })
+  const [sent, setSent] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
-
-  const handleChange = (e) => {
-    const { name, value, type, checked } = e.target
-    setFormData(prev => ({
-      ...prev,
-      [name]: type === 'checkbox' ? checked : value
-    }))
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault()
     setLoading(true)
-    setError('')
-
-    try {
-      await confirmacionesDB.create({
-        nombre: formData.nombre,
-        telefono: formData.telefono,
-        num_personas: parseInt(formData.numPersonas),
-        asistira: formData.asistira,
-        restriccion_alimentaria: formData.restriccionAlimentaria,
-        mensaje: formData.mensaje
-      })
-
-      setSubmitted(true)
-      setFormData({
-        nombre: '',
-        telefono: '',
-        numPersonas: '1',
-        asistira: true,
-        restriccionAlimentaria: '',
-        mensaje: ''
-      })
-
-      setTimeout(() => {
-        setSubmitted(false)
-      }, 5000)
-    } catch (err) {
-      setError('Hubo un error al enviar tu confirmación. Intenta de nuevo.')
-      console.error(err)
-    } finally {
-      setLoading(false)
-    }
+    await confirmacionesDB.create(form)
+    setSent(true)
+    setLoading(false)
   }
 
+  if (sent) return (
+    <section style={{ padding: '80px 20px', background: 'white', textAlign: 'center' }}>
+      <div style={{ maxWidth: '500px', margin: '0 auto', background: '#f5f3f0', padding: '50px', borderRadius: '12px' }}>
+        <div style={{ fontSize: '60px', marginBottom: '20px' }}>🎉</div>
+        <h2 style={{ color: '#1a3a52', fontFamily: "'Fredoka', sans-serif", marginBottom: '15px' }}>¡Gracias!</h2>
+        <p style={{ color: '#5a5a5a' }}>Tu confirmación fue recibida. ¡Nos vemos el 8 de Agosto!</p>
+      </div>
+    </section>
+  )
+
   return (
-    <section
-      data-section="rsvp"
-      style={{
-        padding: 'var(--spacing-xxl) var(--spacing-lg)',
-        background: 'linear-gradient(135deg, rgba(156,39,176,0.05) 0%, rgba(0,188,212,0.05) 100%)'
-      }}
-    >
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          style={{
-            maxWidth: '600px',
-            margin: '0 auto'
-          }}
-        >
-          <h2 style={{
-            fontSize: '2.5rem',
-            textAlign: 'center',
-            marginBottom: 'var(--spacing-md)',
-            color: 'var(--text-primary)'
-          }}>
-            Confirma tu Asistencia
-          </h2>
-
-          <p style={{
-            textAlign: 'center',
-            fontSize: '1.1rem',
-            color: 'var(--text-secondary)',
-            marginBottom: 'var(--spacing-xl)'
-          }}>
-            Cuéntanos si irás a la fiesta y ayúdanos a preparar una celebración inolvidable
-          </p>
-
-          {submitted ? (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              style={{
-                background: 'linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%)',
-                borderRadius: 'var(--radius-lg)',
-                padding: 'var(--spacing-xl)',
-                textAlign: 'center',
-                color: 'white'
-              }}
-            >
-              <CheckCircle size={64} style={{
-                margin: '0 auto var(--spacing-md)',
-                animation: 'bounce-gentle 1s infinite'
-              }} />
-              <h3 style={{
-                fontSize: '1.8rem',
-                marginBottom: 'var(--spacing-sm)',
-                fontFamily: 'var(--font-display)'
-              }}>
-                ¡Gracias por Confirmar!
-              </h3>
-              <p style={{
-                fontSize: '1.1rem',
-                opacity: 0.95
-              }}>
-                Tu respuesta ha sido registrada. ¡Nos vemos en la fiesta!
-              </p>
-            </motion.div>
-          ) : (
-            <motion.form
-              onSubmit={handleSubmit}
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              viewport={{ once: true }}
-              style={{
-                background: 'white',
-                borderRadius: 'var(--radius-lg)',
-                padding: 'var(--spacing-lg)',
-                boxShadow: 'var(--shadow-lg)'
-              }}
-            >
-              {error && (
-                <motion.div
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  style={{
-                    background: '#FFE0E0',
-                    color: '#D32F2F',
-                    padding: 'var(--spacing-md)',
-                    borderRadius: 'var(--radius-md)',
-                    marginBottom: 'var(--spacing-md)',
-                    fontSize: '0.95rem'
-                  }}
-                >
-                  {error}
-                </motion.div>
-              )}
-
-              {/* Nombre */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 }}
-                style={{ marginBottom: 'var(--spacing-md)' }}
-              >
-                <label style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)'
-                }}>
-                  Tu Nombre *
-                </label>
-                <input
-                  type="text"
-                  name="nombre"
-                  value={formData.nombre}
-                  onChange={handleChange}
-                  required
-                  placeholder="Ej: Juan García"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--spacing-sm)',
-                    border: '2px solid var(--light-dark)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: '1rem',
-                    fontFamily: 'var(--font-body)',
-                    transition: 'all 0.3s ease'
-                  }}
-                />
-              </motion.div>
-
-              {/* Teléfono */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.15 }}
-                style={{ marginBottom: 'var(--spacing-md)' }}
-              >
-                <label style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)'
-                }}>
-                  Tu Teléfono
-                </label>
-                <input
-                  type="tel"
-                  name="telefono"
-                  value={formData.telefono}
-                  onChange={handleChange}
-                  placeholder="Ej: +34 612 345 678"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--spacing-sm)',
-                    border: '2px solid var(--light-dark)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: '1rem',
-                    fontFamily: 'var(--font-body)',
-                    transition: 'all 0.3s ease'
-                  }}
-                />
-              </motion.div>
-
-              {/* Número de personas */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.2 }}
-                style={{ marginBottom: 'var(--spacing-md)' }}
-              >
-                <label style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)'
-                }}>
-                  ¿Cuántas personas asistirán? *
-                </label>
-                <select
-                  name="numPersonas"
-                  value={formData.numPersonas}
-                  onChange={handleChange}
-                  style={{
-                    width: '100%',
-                    padding: 'var(--spacing-sm)',
-                    border: '2px solid var(--light-dark)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: '1rem',
-                    fontFamily: 'var(--font-body)',
-                    cursor: 'pointer'
-                  }}
-                >
-                  {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(n => (
-                    <option key={n} value={n}>
-                      {n} {n === 1 ? 'persona' : 'personas'}
-                    </option>
-                  ))}
-                </select>
-              </motion.div>
-
-              {/* ¿Asistirás? */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.25 }}
-                style={{ marginBottom: 'var(--spacing-md)' }}
-              >
-                <label style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 'var(--spacing-sm)',
-                  cursor: 'pointer',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)'
-                }}>
-                  <input
-                    type="checkbox"
-                    name="asistira"
-                    checked={formData.asistira}
-                    onChange={handleChange}
-                    style={{
-                      width: '20px',
-                      height: '20px',
-                      cursor: 'pointer'
-                    }}
-                  />
-                  Sí, ¡Voy a asistir! 🎉
-                </label>
-              </motion.div>
-
-              {/* Restricción alimentaria */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.3 }}
-                style={{ marginBottom: 'var(--spacing-md)' }}
-              >
-                <label style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)'
-                }}>
-                  Restricciones Alimentarias
-                </label>
-                <input
-                  type="text"
-                  name="restriccionAlimentaria"
-                  value={formData.restriccionAlimentaria}
-                  onChange={handleChange}
-                  placeholder="Ej: Vegetariano, sin gluten, etc."
-                  style={{
-                    width: '100%',
-                    padding: 'var(--spacing-sm)',
-                    border: '2px solid var(--light-dark)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: '1rem',
-                    fontFamily: 'var(--font-body)'
-                  }}
-                />
-              </motion.div>
-
-              {/* Mensaje */}
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.35 }}
-                style={{ marginBottom: 'var(--spacing-lg)' }}
-              >
-                <label style={{
-                  display: 'block',
-                  marginBottom: '8px',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)'
-                }}>
-                  Déjanos un Mensaje
-                </label>
-                <textarea
-                  name="mensaje"
-                  value={formData.mensaje}
-                  onChange={handleChange}
-                  placeholder="¡Felicidades! Espero..."
-                  rows="4"
-                  style={{
-                    width: '100%',
-                    padding: 'var(--spacing-sm)',
-                    border: '2px solid var(--light-dark)',
-                    borderRadius: 'var(--radius-md)',
-                    fontSize: '1rem',
-                    fontFamily: 'var(--font-body)',
-                    resize: 'vertical'
-                  }}
-                />
-              </motion.div>
-
-              {/* Botón enviar */}
-              <motion.button
-                type="submit"
-                disabled={loading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                style={{
-                  width: '100%',
-                  padding: 'var(--spacing-md)',
-                  background: 'var(--gradient-main)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: 'var(--radius-md)',
-                  fontSize: '1.1rem',
-                  fontWeight: 700,
-                  cursor: loading ? 'not-allowed' : 'pointer',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  gap: 'var(--spacing-sm)',
-                  opacity: loading ? 0.6 : 1,
-                  transition: 'all 0.3s ease',
-                  fontFamily: 'var(--font-body)'
-                }}
-              >
-                <Send size={20} />
-                {loading ? 'Enviando...' : 'Confirmar Asistencia'}
-              </motion.button>
-            </motion.form>
-          )}
-        </motion.div>
+    <section style={{ padding: '80px 20px', background: 'white' }}>
+      <div style={{ maxWidth: '550px', margin: '0 auto' }}>
+        <h2 style={{ fontSize: 'clamp(1.8rem, 6vw, 2.8rem)', color: '#1a3a52', fontFamily: "'Fredoka', sans-serif", textAlign: 'center', marginBottom: '15px' }}>Confirma tu Asistencia</h2>
+        <p style={{ color: '#5a5a5a', textAlign: 'center', marginBottom: '40px' }}>Ayúdanos a preparar una noche inolvidable</p>
+        <form onSubmit={handleSubmit} style={{ background: '#f5f3f0', padding: '40px', borderRadius: '12px', borderTop: '4px solid #d4af37' }}>
+          {[
+            { label: 'Tu Nombre *', key: 'nombre', type: 'text', placeholder: 'Juan García', required: true },
+            { label: 'Tu Teléfono', key: 'telefono', type: 'tel', placeholder: '+52 614 123 4567', required: false },
+          ].map(f => (
+            <div key={f.key} style={{ marginBottom: '20px' }}>
+              <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#1a3a52', fontSize: '14px' }}>{f.label}</label>
+              <input type={f.type} required={f.required} placeholder={f.placeholder} value={form[f.key]} onChange={e => setForm({ ...form, [f.key]: e.target.value })}
+                style={{ width: '100%', padding: '12px', border: '2px solid #e0e0e0', borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box', background: 'white' }} />
+            </div>
+          ))}
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#1a3a52', fontSize: '14px' }}>¿Cuántas personas asistirán? *</label>
+            <select value={form.num_personas} onChange={e => setForm({ ...form, num_personas: parseInt(e.target.value) })}
+              style={{ width: '100%', padding: '12px', border: '2px solid #e0e0e0', borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box', background: 'white' }}>
+              {[1,2,3,4,5].map(n => <option key={n} value={n}>{n} persona{n > 1 ? 's' : ''}</option>)}
+            </select>
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#1a3a52', fontSize: '14px' }}>¿Asistirás?</label>
+            <div style={{ display: 'flex', gap: '15px' }}>
+              {[{ val: true, label: '✅ Sí, asistiré' }, { val: false, label: '❌ No puedo asistir' }].map(opt => (
+                <button key={String(opt.val)} type="button" onClick={() => setForm({ ...form, asistira: opt.val })}
+                  style={{ flex: 1, padding: '10px', border: `2px solid ${form.asistira === opt.val ? '#6b8fa3' : '#e0e0e0'}`, borderRadius: '6px', background: form.asistira === opt.val ? '#6b8fa3' : 'white', color: form.asistira === opt.val ? 'white' : '#5a5a5a', fontWeight: 600, cursor: 'pointer', fontSize: '14px' }}>
+                  {opt.label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div style={{ marginBottom: '20px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#1a3a52', fontSize: '14px' }}>Restricciones Alimentarias</label>
+            <input type="text" placeholder="Vegetariano, sin gluten, etc." value={form.restriccion_alimentaria} onChange={e => setForm({ ...form, restriccion_alimentaria: e.target.value })}
+              style={{ width: '100%', padding: '12px', border: '2px solid #e0e0e0', borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box', background: 'white' }} />
+          </div>
+          <div style={{ marginBottom: '25px' }}>
+            <label style={{ display: 'block', marginBottom: '8px', fontWeight: 600, color: '#1a3a52', fontSize: '14px' }}>Mensaje para los cumpleañeros</label>
+            <textarea placeholder="¡Muchas felicidades! Espero..." value={form.mensaje} onChange={e => setForm({ ...form, mensaje: e.target.value })}
+              style={{ width: '100%', padding: '12px', border: '2px solid #e0e0e0', borderRadius: '6px', fontSize: '14px', boxSizing: 'border-box', background: 'white', minHeight: '100px', resize: 'vertical' }} />
+          </div>
+          <button type="submit" disabled={loading} style={{ width: '100%', padding: '16px', background: '#1a3a52', color: '#d4af37', border: 'none', borderRadius: '50px', fontFamily: "'Fredoka', sans-serif", fontWeight: 700, cursor: 'pointer', fontSize: '16px', textTransform: 'uppercase', letterSpacing: '1px' }}>
+            {loading ? 'Enviando...' : '✓ Confirmar Asistencia'}
+          </button>
+        </form>
       </div>
     </section>
   )

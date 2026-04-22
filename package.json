@@ -1,5 +1,5 @@
 {
-  "name": "cumpleaños-javier-chanita",
+  "name": "cumpleaños-chanita-javier",
   "private": true,
   "version": "1.0.0",
   "type": "module",
@@ -12,12 +12,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.20.0",
-    "supabase": "^2.38.0",
     "@supabase/supabase-js": "^2.38.0",
     "framer-motion": "^12.0.0",
     "lucide-react": "^0.408.0",
-    "qrcode": "^1.5.3",
-    "html5-qrcode": "^2.3.8",
     "gsap": "^3.12.2"
   },
   "devDependencies": {

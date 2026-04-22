@@ -1,66 +1,31 @@
 import { useState } from 'react'
-import { motion } from 'framer-motion'
 import LetterIntro from '../components/LetterIntro'
 import Hero from '../components/Hero'
-import Countdown from '../components/Countdown'
+import Ceremony from '../components/Ceremony'
 import Party from '../components/Party'
 import Gallery from '../components/Gallery'
 import Itinerary from '../components/Itinerary'
+import Countdown from '../components/Countdown'
 import RSVP from '../components/RSVP'
 import MusicPlayer from '../components/MusicPlayer'
 
 export default function InvitationPage() {
-  const [showInvitation, setShowInvitation] = useState(false)
-
-  if (!showInvitation) {
-    return <LetterIntro onOpen={() => setShowInvitation(true)} />
-  }
-
+  const [opened, setOpened] = useState(false)
+  if (!opened) return <LetterIntro onOpen={() => setOpened(true)} />
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-    >
+    <div>
       <MusicPlayer />
       <Hero />
       <Countdown />
+      <Ceremony />
       <Party />
       <Gallery />
       <Itinerary />
       <RSVP />
-
-      {/* Footer */}
-      <footer style={{
-        background: 'var(--dark)',
-        color: 'white',
-        padding: 'var(--spacing-xl) var(--spacing-lg)',
-        textAlign: 'center'
-      }}>
-        <div className="container">
-          <p style={{
-            fontSize: '1.1rem',
-            marginBottom: 'var(--spacing-md)',
-            fontFamily: 'var(--font-display)'
-          }}>
-            🎉 Cumpleaños Javier & Chanita 🎉
-          </p>
-          <p style={{
-            fontSize: '0.95rem',
-            color: 'rgba(255,255,255,0.7)',
-            marginBottom: 'var(--spacing-sm)'
-          }}>
-            8 de Agosto de 2026
-          </p>
-          <p style={{
-            fontSize: '0.85rem',
-            color: 'rgba(255,255,255,0.5)',
-            marginTop: 'var(--spacing-lg)'
-          }}>
-            Creado con amor para una celebración especial
-          </p>
-        </div>
+      <footer style={{ background: '#1a3a52', color: 'white', textAlign: 'center', padding: '40px 20px', fontSize: '14px' }}>
+        <div style={{ width: '80px', height: '2px', background: '#d4af37', margin: '0 auto 20px' }} />
+        <p>Con mucho amor — Celebración Chanita & Javier • 8 de Agosto de 2026</p>
       </footer>
-    </motion.div>
+    </div>
   )
 }

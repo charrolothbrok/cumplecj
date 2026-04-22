@@ -1,152 +1,29 @@
 import { useState, useEffect } from 'react'
-import { motion } from 'framer-motion'
 
 export default function Countdown() {
-  const [timeLeft, setTimeLeft] = useState({
-    days: 0,
-    hours: 0,
-    minutes: 0,
-    seconds: 0
-  })
+  const [time, setTime] = useState({})
 
   useEffect(() => {
-    const calculateTimeLeft = () => {
-      const targetDate = new Date('2026-08-08T00:00:00').getTime()
-      const now = new Date().getTime()
-      const difference = targetDate - now
-
-      if (difference > 0) {
-        setTimeLeft({
-          days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-          hours: Math.floor((difference / (1000 * 60 * 60)) % 24),
-          minutes: Math.floor((difference / 1000 / 60) % 60),
-          seconds: Math.floor((difference / 1000) % 60)
-        })
-      }
+    const calc = () => {
+      const diff = new Date('2026-08-08T17:00:00') - new Date()
+      if (diff <= 0) { setTime({ d: 0, h: 0, m: 0, s: 0 }); return }
+      setTime({ d: Math.floor(diff/86400000), h: Math.floor((diff%86400000)/3600000), m: Math.floor((diff%3600000)/60000), s: Math.floor((diff%60000)/1000) })
     }
-
-    calculateTimeLeft()
-    const timer = setInterval(calculateTimeLeft, 1000)
-    return () => clearInterval(timer)
+    calc(); const t = setInterval(calc, 1000); return () => clearInterval(t)
   }, [])
 
-  const TimeUnit = ({ value, label }) => (
-    <motion.div
-      key={value}
-      initial={{ scale: 1 }}
-      animate={{ scale: 1 }}
-      transition={{ duration: 0.3 }}
-      style={{
-        flex: 1,
-        padding: 'var(--spacing-md)',
-        background: 'white',
-        borderRadius: 'var(--radius-lg)',
-        boxShadow: 'var(--shadow-lg)',
-        minWidth: '80px'
-      }}
-    >
-      <motion.div
-        key={value}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3 }}
-        style={{
-          fontSize: '2.5rem',
-          fontWeight: 700,
-          background: 'var(--gradient-main)',
-          WebkitBackgroundClip: 'text',
-          WebkitTextFillColor: 'transparent',
-          backgroundClip: 'text',
-          fontFamily: 'var(--font-display)'
-        }}
-      >
-        {String(value).padStart(2, '0')}
-      </motion.div>
-      <p style={{
-        fontSize: '0.9rem',
-        color: 'var(--text-secondary)',
-        marginTop: '8px',
-        fontWeight: 600,
-        textTransform: 'uppercase',
-        letterSpacing: '0.5px'
-      }}>
-        {label}
-      </p>
-    </motion.div>
-  )
-
   return (
-    <section style={{
-      padding: 'var(--spacing-xxl) var(--spacing-lg)',
-      background: 'linear-gradient(135deg, rgba(255,107,53,0.05) 0%, rgba(233,30,99,0.05) 100%)',
-      textAlign: 'center'
-    }}>
-      <div className="container">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ once: true }}
-          style={{
-            marginBottom: 'var(--spacing-lg)'
-          }}
-        >
-          <h2 style={{
-            fontSize: '2.5rem',
-            marginBottom: 'var(--spacing-md)',
-            color: 'var(--text-primary)'
-          }}>
-            ¿Cuánto falta?
-          </h2>
-          <p style={{
-            fontSize: '1.1rem',
-            color: 'var(--text-secondary)',
-            marginBottom: 'var(--spacing-xl)'
-          }}>
-            Cuenta regresiva para la gran celebración • 8 de Agosto
-          </p>
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          whileInView={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          viewport={{ once: true }}
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fit, minmax(80px, 1fr))',
-            gap: 'var(--spacing-md)',
-            maxWidth: '500px',
-            margin: '0 auto'
-          }}
-        >
-          <TimeUnit value={timeLeft.days} label="Días" />
-          <TimeUnit value={timeLeft.hours} label="Horas" />
-          <TimeUnit value={timeLeft.minutes} label="Minutos" />
-          <TimeUnit value={timeLeft.seconds} label="Segundos" />
-        </motion.div>
-
-        {/* Mensaje adicional */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          transition={{ duration: 0.6, delay: 0.4 }}
-          viewport={{ once: true }}
-          style={{
-            marginTop: 'var(--spacing-xxl)'
-          }}
-        >
-          <p style={{
-            fontSize: '1.2rem',
-            fontWeight: 600,
-            background: 'var(--gradient-warm)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text'
-          }}>
-            ¡La fiesta está cada vez más cerca! 🎉
-          </p>
-        </motion.div>
+    <section style={{ padding: '60px 20px', background: '#1a3a52', textAlign: 'center' }}>
+      <p style={{ color: '#d4af37', letterSpacing: '3px', textTransform: 'uppercase', fontSize: '13px', marginBottom: '30px', fontWeight: 600 }}>
+        Faltan para la celebración
+      </p>
+      <div style={{ display: 'flex', gap: '20px', justifyContent: 'center', flexWrap: 'wrap' }}>
+        {[{ val: time.d, label: 'Días' }, { val: time.h, label: 'Horas' }, { val: time.m, label: 'Minutos' }, { val: time.s, label: 'Segundos' }].map(t => (
+          <div key={t.label} style={{ background: 'rgba(255,255,255,0.1)', padding: '20px 25px', borderRadius: '10px', minWidth: '80px' }}>
+            <p style={{ fontSize: '2.5rem', color: 'white', fontWeight: 700, margin: '0', fontFamily: "'Fredoka', sans-serif" }}>{String(t.val).padStart(2,'0')}</p>
+            <p style={{ color: '#d4af37', fontSize: '12px', margin: '5px 0 0', textTransform: 'uppercase', letterSpacing: '1px' }}>{t.label}</p>
+          </div>
+        ))}
       </div>
     </section>
   )

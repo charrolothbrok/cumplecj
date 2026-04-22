@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import InvitationPage from './pages/InvitationPage'
 import AdminPage from './pages/AdminPage'
+import CheckInPage from './pages/CheckInPage'
 
 function App() {
   return (
@@ -8,6 +9,7 @@ function App() {
       <Routes>
         <Route path="/" element={<InvitationPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/checkin" element={<CheckInPage />} />
         <Route path="*" element={<Navigate to="/" />} />
       </Routes>
     </BrowserRouter>
