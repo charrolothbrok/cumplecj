@@ -1,21 +1,21 @@
 :root {
-  /* PALETA FINAL - Guinda + Crema + Textos Oscuros */
+  /* PALETA FINAL - Azul Grisáceo + Dorado + Crema */
   
   /* FONDOS */
-  --bg-primary: #f5f1e8;        /* Crema claro - FONDO PRINCIPAL */
-  --bg-secondary: #e8dcc8;      /* Crema oscuro - separadores */
+  --bg-primary: #f5f3f0;        /* Crema muy claro - FONDO PRINCIPAL */
+  --bg-secondary: #ede5dc;      /* Crema oscuro - separadores */
   --bg-white: #ffffff;          /* Blanco puro */
   
   /* TEXTOS */
-  --text-title: #1a1a1a;        /* Negro muy oscuro - TÍTULOS SUPER LEGIBLES */
-  --text-subtitle: #4a4a4a;     /* Gris oscuro - subtítulos */
-  --text-body: #666666;         /* Gris medio - texto normal */
+  --text-title: #1a3a52;        /* Azul oscuro - TÍTULOS SUPER LEGIBLES */
+  --text-subtitle: #4a5a6a;     /* Gris azulado - subtítulos */
+  --text-body: #5a5a5a;         /* Gris medio - texto normal */
   --text-light: #888888;        /* Gris claro - texto light */
   --text-white: #ffffff;        /* Blanco - en fondos oscuros */
   
   /* ACENTOS PRINCIPALES */
-  --primary-guinda: #8b1538;    /* Guinda profundo - BOTONES, LÍNEAS, ACENTOS */
-  --primary-guinda-light: #a82d4a; /* Guinda claro - HOVER */
+  --primary-guinda: #6b8fa3;    /* Azul grisáceo - BOTONES, LÍNEAS, ACENTOS */
+  --primary-guinda-light: #7fa0b5; /* Azul grisáceo claro - HOVER */
   
   /* ACENTOS COMPLEMENTARIOS */
   --primary-gold: #d4af37;      /* Dorado - pequeños detalles, sellos */
@@ -33,11 +33,11 @@
   --light: #F5F5F5;
   --light-dark: #E8E8E8;
   
-  /* Gradientes Guinda Premium */
-  --gradient-main: linear-gradient(135deg, #f5f1e8 0%, #8b1538 100%);
-  --gradient-warm: linear-gradient(135deg, #f5f1e8 0%, #d4af37 100%);
-  --gradient-cool: linear-gradient(135deg, #8b1538 0%, #a82d4a 100%);
-  --gradient-party: linear-gradient(45deg, #f5f1e8 0%, #8b1538 25%, #a82d4a 50%, #d4af37 75%, #e8dcc8 100%);
+  /* Gradientes Azul Premium */
+  --gradient-main: linear-gradient(135deg, #f5f3f0 0%, #6b8fa3 100%);
+  --gradient-warm: linear-gradient(135deg, #f5f3f0 0%, #d4af37 100%);
+  --gradient-cool: linear-gradient(135deg, #6b8fa3 0%, #7fa0b5 100%);
+  --gradient-party: linear-gradient(45deg, #f5f3f0 0%, #6b8fa3 25%, #7fa0b5 50%, #d4af37 75%, #ede5dc 100%);
   
   /* Tipografía */
   --font-display: 'Fredoka', 'Quicksand', sans-serif;

@@ -4,76 +4,22 @@ import gsap from 'gsap'
 export default function LetterIntro({ onOpen }) {
   const [isOpening, setIsOpening] = useState(false)
   const containerRef = useRef(null)
-  const envelopeRef = useRef(null)
-  const titleRef = useRef(null)
-  const subtitleRef = useRef(null)
-  const buttonRef = useRef(null)
+  const contentRef = useRef(null)
 
-  // Animación inicial con GSAP
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline()
 
-      // Fade in general
+      // Fade in container
       tl.to(containerRef.current, { opacity: 1, duration: 0.8 })
 
-      // Título aparece con scale
-      tl.from(
-        titleRef.current,
-        {
-          opacity: 0,
-          scale: 0.8,
-          y: 30,
-          duration: 0.8,
-          ease: 'power2.out'
-        },
-        0.2
-      )
-
-      // Subtítulo aparece
-      tl.from(
-        subtitleRef.current,
-        {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: 'power2.out'
-        },
-        0.4
-      )
-
-      // Sobre aparece con bounce
-      tl.from(
-        envelopeRef.current,
-        {
-          opacity: 0,
-          y: 50,
-          duration: 0.8,
-          ease: 'back.out'
-        },
-        0.6
-      )
-
-      // Botón aparece
-      tl.from(
-        buttonRef.current,
-        {
-          opacity: 0,
-          y: 20,
-          duration: 0.6,
-          ease: 'power2.out'
-        },
-        0.8
-      )
-
-      // Animación continua del sobre (flotar)
-      gsap.to(envelopeRef.current, {
-        y: -15,
-        duration: 2,
-        repeat: -1,
-        yoyo: true,
-        ease: 'sine.inOut'
-      })
+      // Fade in content
+      tl.from(contentRef.current, {
+        opacity: 0,
+        y: 30,
+        duration: 0.8,
+        ease: 'power2.out'
+      }, 0.2)
     })
 
     return () => ctx.revert()
@@ -81,18 +27,16 @@ export default function LetterIntro({ onOpen }) {
 
   const handleOpen = () => {
     setIsOpening(true)
-
-    // Animación de apertura con GSAP
-    gsap.to(envelopeRef.current, {
+    gsap.to(contentRef.current, {
       opacity: 0,
-      scale: 0.8,
+      scale: 0.9,
       duration: 0.5,
       ease: 'power2.in'
     })
 
     setTimeout(() => {
       onOpen()
-    }, 1500)
+    }, 600)
   }
 
   return (
@@ -100,7 +44,7 @@ export default function LetterIntro({ onOpen }) {
       ref={containerRef}
       style={{
         minHeight: '100vh',
-        background: '#f5f1e8',
+        background: 'linear-gradient(135deg, #6b8fa3 0%, #5a7a8f 100%)',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -111,9 +55,33 @@ export default function LetterIntro({ onOpen }) {
         overflow: 'hidden'
       }}
     >
-      {/* Confeti con GSAP */}
+      {/* Patrón decorativo de fondo */}
+      <div
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+          pointerEvents: 'none'
+        }}
+      />
+      <div
+        style={{
+          position: 'absolute',
+          bottom: 0,
+          right: 0,
+          backgroundImage: 'radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%)',
+          pointerEvents: 'none',
+          width: '300px',
+          height: '300px'
+        }}
+      />
+
+      {/* Confeti al abrir */}
       {isOpening &&
-        Array.from({ length: 60 }).map((_, i) => (
+        Array.from({ length: 50 }).map((_, i) => (
           <div
             key={i}
             style={{
@@ -122,9 +90,7 @@ export default function LetterIntro({ onOpen }) {
               top: '50%',
               width: Math.random() * 8 + 4 + 'px',
               height: Math.random() * 8 + 4 + 'px',
-              background: ['#8b1538', '#d4af37', '#a82d4a'][
-                Math.floor(Math.random() * 3)
-              ],
+              background: ['#d4af37', '#f5f3f0', '#6b8fa3'][Math.floor(Math.random() * 3)],
               borderRadius: '50%',
               pointerEvents: 'none',
               zIndex: 1
@@ -144,53 +110,42 @@ export default function LetterIntro({ onOpen }) {
           />
         ))}
 
-      {/* Contenedor principal */}
+      {/* Contenido principal */}
       <div
+        ref={contentRef}
         style={{
           position: 'relative',
           zIndex: 10,
           textAlign: 'center',
-          maxWidth: '700px'
+          maxWidth: '800px',
+          color: 'white'
         }}
       >
-        {/* Línea decorativa */}
-        <div
-          style={{
-            height: '2px',
-            width: '100px',
-            background: '#8b1538',
-            margin: '0 auto 30px',
-            borderRadius: '1px'
-          }}
-        />
-
-        {/* Texto pequeño decorativo */}
+        {/* Subtítulo */}
         <p
           style={{
             fontSize: '14px',
-            letterSpacing: '3px',
+            letterSpacing: '4px',
             textTransform: 'uppercase',
-            color: '#4a4a4a',
+            color: '#d4af37',
             marginBottom: '20px',
-            fontWeight: 500,
-            fontFamily: "'Poppins', sans-serif",
-            margin: '0 0 20px 0'
+            fontWeight: 600,
+            fontFamily: "'Poppins', sans-serif"
           }}
         >
-          Con Amor Los Invitamos
+          Somos el Honor de Invitarte
         </p>
 
-        {/* TÍTULO - SÓLIDO, NO GRADIENTE */}
+        {/* Título principal */}
         <h1
-          ref={titleRef}
           style={{
-            fontSize: 'clamp(2.5rem, 10vw, 5rem)',
+            fontSize: 'clamp(2.5rem, 12vw, 5rem)',
             fontFamily: "'Fredoka', sans-serif",
             fontWeight: 700,
-            color: '#1a1a1a',
-            margin: '0 0 10px 0',
+            color: 'white',
+            margin: '0 0 15px 0',
             lineHeight: 1.1,
-            letterSpacing: '-1px'
+            textShadow: '2px 2px 8px rgba(0,0,0,0.3)'
           }}
         >
           Chanita & Javier
@@ -199,188 +154,79 @@ export default function LetterIntro({ onOpen }) {
         {/* Línea decorativa */}
         <div
           style={{
+            width: '120px',
             height: '3px',
-            width: '150px',
-            background: '#8b1538',
-            margin: '25px auto 30px',
+            background: '#d4af37',
+            margin: '20px auto 30px',
             borderRadius: '2px'
           }}
         />
 
-        {/* Subtítulo - SÓLIDO */}
-        <div
-          ref={subtitleRef}
+        {/* Descripción */}
+        <p
           style={{
-            marginBottom: '50px'
+            fontSize: '18px',
+            color: '#f0f0f0',
+            marginBottom: '15px',
+            fontWeight: 300,
+            lineHeight: 1.8,
+            fontFamily: "'Poppins', sans-serif"
           }}
         >
-          <p
-            style={{
-              fontSize: '18px',
-              color: '#666666',
-              margin: '0 0 10px 0',
-              fontWeight: 300,
-              lineHeight: 1.6,
-              fontFamily: "'Poppins', sans-serif"
-            }}
-          >
-            Una doble celebración llena de amor
-          </p>
-          <p
-            style={{
-              fontSize: '16px',
-              color: '#8b1538',
-              fontWeight: 600,
-              margin: 0,
-              fontFamily: "'Poppins', sans-serif"
-            }}
-          >
-            8 de Agosto de 2026
-          </p>
-        </div>
+          Celebramos juntos 62 años de papá y 83 años de abuelita<br />
+          Una doble celebración llena de amor, familia y momentos especiales
+        </p>
 
-        {/* SOBRE - Elegante y minimalista */}
-        <div
-          ref={envelopeRef}
-          onClick={handleOpen}
+        {/* Fecha */}
+        <p
           style={{
-            width: '220px',
-            height: '140px',
-            background: 'white',
-            borderRadius: '4px',
-            boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
-            position: 'relative',
-            margin: '40px auto',
-            cursor: 'pointer',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            border: '1px solid rgba(139, 21, 56, 0.1)'
-          }}
-        >
-          {/* Solapa decorativa */}
-          <div
-            style={{
-              position: 'absolute',
-              top: 0,
-              left: 0,
-              right: 0,
-              height: '50%',
-              background: '#8b1538',
-              borderRadius: '4px 4px 0 0',
-              opacity: 0.9
-            }}
-          />
-
-          {/* Contenido */}
-          <div
-            style={{
-              position: 'relative',
-              zIndex: 2,
-              textAlign: 'center'
-            }}
-          >
-            <div style={{ fontSize: '40px', marginBottom: '8px' }}>✉️</div>
-            <p
-              style={{
-                fontSize: '12px',
-                color: '#4a4a4a',
-                fontWeight: 500,
-                margin: 0,
-                fontFamily: "'Poppins', sans-serif"
-              }}
-            >
-              Toca para abrir
-            </p>
-          </div>
-
-          {/* Listón decorativo */}
-          <div
-            style={{
-              position: 'absolute',
-              left: '50%',
-              top: '50%',
-              transform: 'translate(-50%, -50%)',
-              width: '25px',
-              height: '140px',
-              background: '#8b1538',
-              opacity: 0.8,
-              zIndex: 1
-            }}
-          />
-
-          {/* Sello */}
-          <div
-            style={{
-              position: 'absolute',
-              bottom: '15px',
-              right: '15px',
-              width: '45px',
-              height: '45px',
-              background: '#d4af37',
-              borderRadius: '50%',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              fontSize: '22px',
-              zIndex: 3,
-              boxShadow: '0 4px 12px rgba(212, 175, 55, 0.25)'
-            }}
-          >
-            ✓
-          </div>
-        </div>
-
-        {/* BOTÓN - Grande y prominente */}
-        <button
-          ref={buttonRef}
-          onClick={handleOpen}
-          style={{
-            marginTop: '50px',
-            padding: '16px 50px',
-            fontSize: '15px',
+            fontSize: '20px',
+            color: '#d4af37',
             fontWeight: 700,
-            fontFamily: "'Fredoka', sans-serif",
-            background: '#8b1538',
-            color: 'white',
+            marginBottom: '50px',
+            fontFamily: "'Poppins', sans-serif"
+          }}
+        >
+          8 de Agosto de 2026
+        </p>
+
+        {/* Botón */}
+        <button
+          onClick={handleOpen}
+          style={{
+            padding: '18px 60px',
+            background: '#d4af37',
+            color: '#1a3a52',
             border: 'none',
             borderRadius: '50px',
+            fontFamily: "'Fredoka', sans-serif",
+            fontWeight: 700,
             cursor: 'pointer',
-            boxShadow: '0 8px 25px rgba(139, 21, 56, 0.25)',
+            boxShadow: '0 12px 35px rgba(212, 175, 55, 0.4)',
             textTransform: 'uppercase',
-            letterSpacing: '1.2px',
+            letterSpacing: '1.3px',
+            fontSize: '16px',
             transition: 'all 0.3s ease'
           }}
           onMouseEnter={(e) => {
             gsap.to(e.target, {
-              scale: 1.08,
-              boxShadow: '0 12px 35px rgba(139, 21, 56, 0.35)',
+              background: '#e5c158',
+              y: -3,
               duration: 0.3
             })
           }}
           onMouseLeave={(e) => {
             gsap.to(e.target, {
-              scale: 1,
-              boxShadow: '0 8px 25px rgba(139, 21, 56, 0.25)',
+              background: '#d4af37',
+              y: 0,
               duration: 0.3
             })
           }}
         >
-          Abre la Invitación
+          Ver Invitación Completa
         </button>
-
-        {/* Línea decorativa final */}
-        <div
-          style={{
-            height: '2px',
-            width: '100px',
-            background: '#8b1538',
-            margin: '50px auto 0',
-            borderRadius: '1px'
-          }}
-        />
       </div>
     </div>
   )
 }
+
