@@ -1,212 +1,128 @@
-import { motion } from 'framer-motion'
-import { Cake, Heart } from 'lucide-react'
-
 export default function Hero() {
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.2,
-        delayChildren: 0.3
-      }
-    }
-  }
-
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8 }
-    }
-  }
-
   return (
     <section style={{
-      minHeight: '100vh',
+      minHeight: '80vh',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      background: 'var(--gradient-main)',
-      padding: 'var(--spacing-lg)',
-      position: 'relative',
-      overflow: 'hidden'
+      background: '#f5f3f0',
+      padding: '60px 20px',
+      textAlign: 'center'
     }}>
-      {/* Formas decorativas de fondo */}
-      <motion.div
-        animate={{
-          y: [0, 30, 0],
-          x: [0, 10, 0]
-        }}
-        transition={{
-          duration: 6,
-          repeat: Infinity
-        }}
-        style={{
-          position: 'absolute',
-          top: '10%',
-          right: '5%',
-          width: '200px',
-          height: '200px',
-          background: 'rgba(255, 255, 255, 0.1)',
-          borderRadius: '50%',
-          zIndex: 1
-        }}
-      />
+      <div style={{ maxWidth: '800px' }}>
+        {/* Emoji */}
+        <div style={{ fontSize: '50px', marginBottom: '30px' }}>🎂</div>
 
-      <motion.div
-        animate={{
-          y: [0, -30, 0],
-          x: [0, -10, 0]
-        }}
-        transition={{
-          duration: 8,
-          repeat: Infinity
-        }}
-        style={{
-          position: 'absolute',
-          bottom: '10%',
-          left: '5%',
-          width: '150px',
-          height: '150px',
-          background: 'rgba(255, 215, 0, 0.15)',
-          borderRadius: '50%',
-          zIndex: 1
-        }}
-      />
+        {/* Título */}
+        <h2 style={{
+          fontSize: 'clamp(2rem, 8vw, 3.5rem)',
+          color: '#1a3a52',
+          fontFamily: "'Fredoka', sans-serif",
+          fontWeight: 700,
+          marginBottom: '20px'
+        }}>
+          Javier & Chanita
+        </h2>
 
-      <motion.div
-        variants={containerVariants}
-        initial="hidden"
-        animate="visible"
-        style={{
-          textAlign: 'center',
-          zIndex: 10,
-          maxWidth: '800px'
-        }}
-      >
-        {/* Decoración superior */}
-        <motion.div
-          variants={itemVariants}
-          style={{
-            marginBottom: 'var(--spacing-lg)'
-          }}
-        >
-          <Cake size={64} style={{
-            color: 'white',
-            margin: '0 auto',
-            filter: 'drop-shadow(0 4px 8px rgba(0,0,0,0.2))'
-          }} />
-        </motion.div>
+        {/* Descripción */}
+        <p style={{
+          fontSize: '18px',
+          color: '#5a5a5a',
+          marginBottom: '40px',
+          lineHeight: 1.8,
+          fontWeight: 300
+        }}>
+          Los invitamos a celebrar a dos personas extraordinarias:<br />
+          <strong>62 años de papá</strong> con su sonrisa, su fuerza y su amor de padre<br />
+          <strong>83 años de abuelita</strong> con su sabiduría, su calidez y su amor infinito
+        </p>
 
-        {/* Nombres principales */}
-        <motion.div
-          variants={itemVariants}
-          style={{
-            marginBottom: 'var(--spacing-md)'
-          }}
-        >
-          <h1 style={{
-            fontSize: '3.5rem',
-            fontFamily: 'var(--font-display)',
-            color: 'white',
-            marginBottom: 'var(--spacing-sm)',
-            textShadow: '2px 2px 8px rgba(0,0,0,0.2)',
-            fontWeight: 800
-          }}>
-            Javier & Chanita
-          </h1>
-        </motion.div>
-
-        {/* Edades con corazón */}
-        <motion.div
-          variants={itemVariants}
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: 'var(--spacing-md)',
-            marginBottom: 'var(--spacing-lg)',
-            flexWrap: 'wrap'
-          }}
-        >
+        {/* Cajas de edades */}
+        <div style={{
+          display: 'flex',
+          gap: '30px',
+          justifyContent: 'center',
+          flexWrap: 'wrap',
+          alignItems: 'center'
+        }}>
+          {/* Caja papá */}
           <div style={{
-            background: 'rgba(255,255,255,0.2)',
-            backdropFilter: 'blur(10px)',
-            padding: 'var(--spacing-md) var(--spacing-lg)',
-            borderRadius: 'var(--radius-xl)',
-            color: 'white'
+            background: 'white',
+            padding: '35px 45px',
+            borderRadius: '10px',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+            minWidth: '180px',
+            borderTop: '3px solid #d4af37'
           }}>
             <p style={{
-              fontSize: '1rem',
-              opacity: 0.9,
-              marginBottom: '4px'
-            }}>Papá cumple</p>
+              fontSize: '13px',
+              color: '#5a5a5a',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              marginBottom: '8px',
+              fontWeight: 600
+            }}>
+              Papá
+            </p>
             <p style={{
-              fontSize: '2.5rem',
+              fontSize: '3rem',
+              color: '#1a3a52',
               fontWeight: 700,
-              fontFamily: 'var(--font-display)'
-            }}>62 años</p>
+              margin: '0',
+              fontFamily: "'Fredoka', sans-serif"
+            }}>
+              62
+            </p>
+            <p style={{
+              fontSize: '13px',
+              color: '#5a5a5a',
+              marginTop: '8px'
+            }}>
+              años de vida
+            </p>
           </div>
 
-          <motion.div
-            animate={{
-              scale: [1, 1.2, 1],
-              rotate: [0, 10, -10, 0]
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity
-            }}
-          >
-            <Heart size={48} style={{
-              color: '#FFD700',
-              fill: '#FFD700'
-            }} />
-          </motion.div>
+          {/* Corazón */}
+          <div style={{ fontSize: '2.5rem' }}>💚</div>
 
+          {/* Caja abuelita */}
           <div style={{
-            background: 'rgba(255,255,255,0.2)',
-            backdropFilter: 'blur(10px)',
-            padding: 'var(--spacing-md) var(--spacing-lg)',
-            borderRadius: 'var(--radius-xl)',
-            color: 'white'
+            background: 'white',
+            padding: '35px 45px',
+            borderRadius: '10px',
+            boxShadow: '0 4px 15px rgba(0,0,0,0.1)',
+            minWidth: '180px',
+            borderTop: '3px solid #d4af37'
           }}>
             <p style={{
-              fontSize: '1rem',
-              opacity: 0.9,
-              marginBottom: '4px'
-            }}>Abuelita cumple</p>
+              fontSize: '13px',
+              color: '#5a5a5a',
+              textTransform: 'uppercase',
+              letterSpacing: '1px',
+              marginBottom: '8px',
+              fontWeight: 600
+            }}>
+              Abuelita
+            </p>
             <p style={{
-              fontSize: '2.5rem',
+              fontSize: '3rem',
+              color: '#1a3a52',
               fontWeight: 700,
-              fontFamily: 'var(--font-display)'
-            }}>83 años</p>
+              margin: '0',
+              fontFamily: "'Fredoka', sans-serif"
+            }}>
+              83
+            </p>
+            <p style={{
+              fontSize: '13px',
+              color: '#5a5a5a',
+              marginTop: '8px'
+            }}>
+              años de vida
+            </p>
           </div>
-        </motion.div>
-
-        {/* Fecha y descripción */}
-        <motion.div
-          variants={itemVariants}
-        >
-          <p style={{
-            fontSize: '1.3rem',
-            color: 'white',
-            marginBottom: 'var(--spacing-sm)',
-            opacity: 0.95
-          }}>
-            ¡Una doble celebración llena de amor!
-          </p>
-          <p style={{
-            fontSize: '1.2rem',
-            color: 'rgba(255,255,255,0.9)',
-            fontWeight: 600
-          }}>
-            Nos encantaría compartir este día especial contigo
-          </p>
-        </motion.div>
-      </motion.div>
+        </div>
+      </div>
     </section>
   )
 }

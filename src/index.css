@@ -33,11 +33,11 @@
   --light: #F5F5F5;
   --light-dark: #E8E8E8;
   
-  /* Gradientes Azul Premium */
-  --gradient-main: linear-gradient(135deg, #f5f3f0 0%, #6b8fa3 100%);
-  --gradient-warm: linear-gradient(135deg, #f5f3f0 0%, #d4af37 100%);
-  --gradient-cool: linear-gradient(135deg, #6b8fa3 0%, #7fa0b5 100%);
-  --gradient-party: linear-gradient(45deg, #f5f3f0 0%, #6b8fa3 25%, #7fa0b5 50%, #d4af37 75%, #ede5dc 100%);
+  /* Colores SÓLIDOS - SIN GRADIENTES */
+  --gradient-main: #1a3a52;
+  --gradient-warm: #d4af37;
+  --gradient-cool: #6b8fa3;
+  --gradient-party: #f5f3f0;
   
   /* Tipografía */
   --font-display: 'Fredoka', 'Quicksand', sans-serif;

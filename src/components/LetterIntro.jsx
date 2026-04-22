@@ -9,11 +9,7 @@ export default function LetterIntro({ onOpen }) {
   useEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline()
-
-      // Fade in container
       tl.to(containerRef.current, { opacity: 1, duration: 0.8 })
-
-      // Fade in content
       tl.from(contentRef.current, {
         opacity: 0,
         y: 30,
@@ -21,7 +17,6 @@ export default function LetterIntro({ onOpen }) {
         ease: 'power2.out'
       }, 0.2)
     })
-
     return () => ctx.revert()
   }, [])
 
@@ -33,10 +28,7 @@ export default function LetterIntro({ onOpen }) {
       duration: 0.5,
       ease: 'power2.in'
     })
-
-    setTimeout(() => {
-      onOpen()
-    }, 600)
+    setTimeout(() => onOpen(), 600)
   }
 
   return (
@@ -44,7 +36,7 @@ export default function LetterIntro({ onOpen }) {
       ref={containerRef}
       style={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #6b8fa3 0%, #5a7a8f 100%)',
+        background: '#6b8fa3',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
@@ -55,31 +47,7 @@ export default function LetterIntro({ onOpen }) {
         overflow: 'hidden'
       }}
     >
-      {/* Patrón decorativo de fondo */}
-      <div
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          backgroundImage: 'radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
-          pointerEvents: 'none'
-        }}
-      />
-      <div
-        style={{
-          position: 'absolute',
-          bottom: 0,
-          right: 0,
-          backgroundImage: 'radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.08) 0%, transparent 50%)',
-          pointerEvents: 'none',
-          width: '300px',
-          height: '300px'
-        }}
-      />
-
-      {/* Confeti al abrir */}
+      {/* Confeti */}
       {isOpening &&
         Array.from({ length: 50 }).map((_, i) => (
           <div
@@ -110,87 +78,64 @@ export default function LetterIntro({ onOpen }) {
           />
         ))}
 
-      {/* Contenido principal */}
-      <div
-        ref={contentRef}
-        style={{
-          position: 'relative',
-          zIndex: 10,
-          textAlign: 'center',
-          maxWidth: '800px',
-          color: 'white'
-        }}
-      >
-        {/* Subtítulo */}
-        <p
-          style={{
-            fontSize: '14px',
-            letterSpacing: '4px',
-            textTransform: 'uppercase',
-            color: '#d4af37',
-            marginBottom: '20px',
-            fontWeight: 600,
-            fontFamily: "'Poppins', sans-serif"
-          }}
-        >
+      {/* Contenido */}
+      <div ref={contentRef} style={{
+        position: 'relative',
+        zIndex: 10,
+        textAlign: 'center',
+        maxWidth: '800px',
+        color: 'white'
+      }}>
+        <p style={{
+          fontSize: '14px',
+          letterSpacing: '4px',
+          textTransform: 'uppercase',
+          color: '#d4af37',
+          marginBottom: '20px',
+          fontWeight: 600
+        }}>
           Somos el Honor de Invitarte
         </p>
 
-        {/* Título principal */}
-        <h1
-          style={{
-            fontSize: 'clamp(2.5rem, 12vw, 5rem)',
-            fontFamily: "'Fredoka', sans-serif",
-            fontWeight: 700,
-            color: 'white',
-            margin: '0 0 15px 0',
-            lineHeight: 1.1,
-            textShadow: '2px 2px 8px rgba(0,0,0,0.3)'
-          }}
-        >
+        <h1 style={{
+          fontSize: 'clamp(2.5rem, 12vw, 5rem)',
+          fontFamily: "'Fredoka', sans-serif",
+          fontWeight: 700,
+          color: 'white',
+          margin: '0 0 20px 0',
+          lineHeight: 1.1,
+          textShadow: '2px 2px 8px rgba(0,0,0,0.3)'
+        }}>
           Chanita & Javier
         </h1>
 
-        {/* Línea decorativa */}
-        <div
-          style={{
-            width: '120px',
-            height: '3px',
-            background: '#d4af37',
-            margin: '20px auto 30px',
-            borderRadius: '2px'
-          }}
-        />
+        <div style={{
+          width: '120px',
+          height: '3px',
+          background: '#d4af37',
+          margin: '20px auto 30px'
+        }} />
 
-        {/* Descripción */}
-        <p
-          style={{
-            fontSize: '18px',
-            color: '#f0f0f0',
-            marginBottom: '15px',
-            fontWeight: 300,
-            lineHeight: 1.8,
-            fontFamily: "'Poppins', sans-serif"
-          }}
-        >
+        <p style={{
+          fontSize: '18px',
+          color: '#f0f0f0',
+          marginBottom: '15px',
+          fontWeight: 300,
+          lineHeight: 1.8
+        }}>
           Celebramos juntos 62 años de papá y 83 años de abuelita<br />
           Una doble celebración llena de amor, familia y momentos especiales
         </p>
 
-        {/* Fecha */}
-        <p
-          style={{
-            fontSize: '20px',
-            color: '#d4af37',
-            fontWeight: 700,
-            marginBottom: '50px',
-            fontFamily: "'Poppins', sans-serif"
-          }}
-        >
+        <p style={{
+          fontSize: '20px',
+          color: '#d4af37',
+          fontWeight: 700,
+          marginBottom: '50px'
+        }}>
           8 de Agosto de 2026
         </p>
 
-        {/* Botón */}
         <button
           onClick={handleOpen}
           style={{
@@ -229,4 +174,3 @@ export default function LetterIntro({ onOpen }) {
     </div>
   )
 }
-
