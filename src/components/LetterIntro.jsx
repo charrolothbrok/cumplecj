@@ -16,12 +16,12 @@ export default function LetterIntro({ onOpen }) {
   const confettiPieces = Array.from({ length: 50 }).map((_, i) => ({
     id: i,
     color: [
-      'var(--primary-beige)',
-      'var(--primary-turquesa)',
-      'var(--primary-sage)',
-      'var(--primary-navy)',
+      'var(--primary-guinda)',
       'var(--primary-gold)',
-      'var(--accent-earth)'
+      'var(--accent-light-guinda)',
+      'var(--primary-dark)',
+      'var(--accent-gold-light)',
+      'var(--accent-cream-dark)'
     ][Math.floor(Math.random() * 6)],
     delay: Math.random() * 0.3,
     duration: 2.5 + Math.random() * 0.8,
@@ -35,7 +35,7 @@ export default function LetterIntro({ onOpen }) {
       animate={{ opacity: 1 }}
       className="flex-center min-h-screen"
       style={{
-        background: 'var(--gradient-main)',
+        background: 'var(--primary-cream)',
         position: 'relative',
         overflow: 'hidden'
       }}
@@ -144,7 +144,7 @@ export default function LetterIntro({ onOpen }) {
                           position: 'absolute',
                           width: '100%',
                           height: '50%',
-                          background: 'linear-gradient(135deg, var(--primary-beige) 0%, var(--primary-sage) 100%)',
+                          background: 'var(--primary-guinda)',
                           transformOrigin: 'top',
                           borderBottom: '2px solid rgba(0,0,0,0.1)'
                         }}
@@ -177,11 +177,11 @@ export default function LetterIntro({ onOpen }) {
                         zIndex: 2,
                         background: 'white'
                       }}>
-                        <Mail size={32} color="var(--primary-gold)" style={{ marginBottom: '12px' }} />
+                        <Mail size={32} color="var(--primary-guinda)" style={{ marginBottom: '12px' }} />
                         <p style={{
                           fontSize: '1.2rem',
                           fontWeight: 600,
-                          color: 'var(--primary-navy)',
+                          color: 'var(--primary-dark)',
                           margin: '8px 0',
                           fontFamily: 'var(--font-display)'
                         }}>
@@ -189,7 +189,7 @@ export default function LetterIntro({ onOpen }) {
                         </p>
                         <p style={{
                           fontSize: '0.85rem',
-                          color: 'var(--primary-sage)',
+                          color: 'var(--primary-guinda)',
                           margin: 0
                         }}>
                           Una invitación especial
@@ -204,7 +204,7 @@ export default function LetterIntro({ onOpen }) {
                         transform: 'translate(-50%, -50%)',
                         width: '40px',
                         height: '180px',
-                        background: 'var(--primary-turquesa)',
+                        background: 'var(--primary-guinda)',
                         zIndex: 3,
                         boxShadow: '0 2px 8px rgba(0,0,0,0.1)'
                       }} />
@@ -225,8 +225,9 @@ export default function LetterIntro({ onOpen }) {
                           display: 'flex',
                           alignItems: 'center',
                           justifyContent: 'center',
-                          boxShadow: '0 4px 12px rgba(201, 169, 97, 0.3)',
-                          fontSize: '24px'
+                          boxShadow: '0 4px 12px rgba(212, 175, 55, 0.3)',
+                          fontSize: '24px',
+                          color: 'white'
                         }}
                       >
                         ✓
@@ -245,8 +246,8 @@ export default function LetterIntro({ onOpen }) {
                 <h1 style={{
                   fontSize: '2.8rem',
                   marginBottom: '1rem',
-                  color: 'white',
-                  textShadow: '2px 2px 6px rgba(0,0,0,0.2)',
+                  color: 'var(--primary-dark)',
+                  textShadow: '1px 1px 2px rgba(255,255,255,0.3)',
                   fontFamily: 'var(--font-display)',
                   fontWeight: 700,
                   letterSpacing: '1px'
@@ -255,9 +256,9 @@ export default function LetterIntro({ onOpen }) {
                 </h1>
                 <p style={{
                   fontSize: '1.3rem',
-                  color: 'rgba(255,255,255,0.95)',
+                  color: 'var(--primary-guinda)',
                   marginBottom: '2rem',
-                  textShadow: '1px 1px 3px rgba(0,0,0,0.2)',
+                  textShadow: '1px 1px 2px rgba(255,255,255,0.2)',
                   fontWeight: 300
                 }}>
                   Para celebrar juntos
@@ -267,15 +268,15 @@ export default function LetterIntro({ onOpen }) {
                   whileTap={{ scale: 0.95 }}
                   onClick={handleOpen}
                   style={{
-                    background: 'white',
-                    color: 'var(--primary-navy)',
+                    background: 'var(--primary-guinda)',
+                    color: 'white',
                     padding: '14px 40px',
                     fontSize: '1.1rem',
                     fontWeight: 700,
                     border: 'none',
                     borderRadius: '50px',
                     cursor: 'pointer',
-                    boxShadow: '0 8px 20px rgba(0,0,0,0.15)',
+                    boxShadow: '0 8px 20px rgba(139, 21, 56, 0.2)',
                     fontFamily: 'var(--font-display)',
                     display: 'inline-flex',
                     alignItems: 'center',

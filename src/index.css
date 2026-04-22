@@ -1,13 +1,12 @@
 :root {
-  /* Paleta de gorras - Premium elegante */
-  --primary-beige: #dcc9b6;
-  --primary-turquesa: #4a9fb5;
-  --primary-sage: #6b8e7f;
-  --primary-navy: #2c3e50;
-  --primary-gold: #c9a961;
-  --accent-cream: #f5f1e8;
-  --accent-earth: #a89080;
-  --accent-light-sage: #8ba899;
+  /* Paleta Guinda + Crema - Elegancia Premium */
+  --primary-guinda: #8b1538;
+  --primary-cream: #f5f1e8;
+  --primary-dark: #2c2c2c;
+  --primary-gold: #d4af37;
+  --accent-light-guinda: #a82d4a;
+  --accent-cream-dark: #e8dcc8;
+  --accent-gold-light: #e8c547;
   
   /* Neutros */
   --dark: #0F0F0F;
@@ -17,11 +16,11 @@
   --light: #F5F5F5;
   --light-dark: #E8E8E8;
   
-  /* Gradientes premium con paleta de gorras */
-  --gradient-main: linear-gradient(135deg, #dcc9b6 0%, #4a9fb5 50%, #6b8e7f 100%);
-  --gradient-warm: linear-gradient(135deg, #dcc9b6 0%, #c9a961 100%);
-  --gradient-cool: linear-gradient(135deg, #4a9fb5 0%, #6b8e7f 100%);
-  --gradient-party: linear-gradient(45deg, #dcc9b6 0%, #4a9fb5 25%, #6b8e7f 50%, #c9a961 75%, #a89080 100%);
+  /* Gradientes Guinda Premium */
+  --gradient-main: linear-gradient(135deg, #f5f1e8 0%, #8b1538 100%);
+  --gradient-warm: linear-gradient(135deg, #f5f1e8 0%, #d4af37 100%);
+  --gradient-cool: linear-gradient(135deg, #8b1538 0%, #a82d4a 100%);
+  --gradient-party: linear-gradient(45deg, #f5f1e8 0%, #8b1538 25%, #a82d4a 50%, #d4af37 75%, #e8dcc8 100%);
   
   /* Tipografía */
   --font-display: 'Fredoka', 'Quicksand', sans-serif;
@@ -113,7 +112,7 @@ button {
 }
 
 .btn-primary {
-  background: var(--gradient-main);
+  background: var(--primary-guinda);
   color: white;
   box-shadow: var(--shadow-md);
 }
@@ -121,29 +120,30 @@ button {
 .btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
+  background: var(--accent-light-guinda);
 }
 
 .btn-secondary {
   background: var(--primary-gold);
-  color: var(--primary-navy);
+  color: var(--primary-dark);
   box-shadow: var(--shadow-md);
 }
 
 .btn-secondary:hover {
   transform: translateY(-2px);
   box-shadow: var(--shadow-lg);
-  background: var(--primary-turquesa);
+  background: var(--primary-guinda);
   color: white;
 }
 
 .btn-outline {
   background: transparent;
-  border: 2px solid var(--primary-navy);
-  color: var(--primary-navy);
+  border: 2px solid var(--primary-guinda);
+  color: var(--primary-guinda);
 }
 
 .btn-outline:hover {
-  background: var(--primary-navy);
+  background: var(--primary-guinda);
   color: white;
 }
 
@@ -159,7 +159,7 @@ button {
 
 .card:hover {
   box-shadow: var(--shadow-lg);
-  border-color: var(--primary-turquesa);
+  border-color: var(--primary-guinda);
 }
 
 /* Input */
@@ -174,8 +174,8 @@ input, textarea, select {
 
 input:focus, textarea:focus, select:focus {
   outline: none;
-  border-color: var(--primary-turquesa);
-  box-shadow: 0 0 0 3px rgba(74, 159, 181, 0.1);
+  border-color: var(--primary-guinda);
+  box-shadow: 0 0 0 3px rgba(139, 21, 56, 0.1);
 }
 
 /* Scrollbar */
@@ -188,12 +188,12 @@ input:focus, textarea:focus, select:focus {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: var(--primary-turquesa);
+  background: var(--primary-guinda);
   border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--primary-sage);
+  background: var(--accent-light-guinda);
 }
 
 /* Animaciones globales */
