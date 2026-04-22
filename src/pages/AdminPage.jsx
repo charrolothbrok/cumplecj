@@ -335,7 +335,7 @@ export default function AdminPage() {
                         background: 'white'
                       }}
                     >
-                      <h3 style{{
+                      <h3 style={{
                         color: 'var(--primary-orange)',
                         marginBottom: 'var(--spacing-sm)',
                         fontSize: '1.2rem'
