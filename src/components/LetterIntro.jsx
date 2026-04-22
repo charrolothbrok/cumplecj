@@ -1,331 +1,386 @@
-import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
+import { useState, useEffect, useRef } from 'react'
+import gsap from 'gsap'
 
 export default function LetterIntro({ onOpen }) {
   const [isOpening, setIsOpening] = useState(false)
+  const containerRef = useRef(null)
+  const envelopeRef = useRef(null)
+  const titleRef = useRef(null)
+  const subtitleRef = useRef(null)
+  const buttonRef = useRef(null)
+
+  // Animación inicial con GSAP
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline()
+
+      // Fade in general
+      tl.to(containerRef.current, { opacity: 1, duration: 0.8 })
+
+      // Título aparece con scale
+      tl.from(
+        titleRef.current,
+        {
+          opacity: 0,
+          scale: 0.8,
+          y: 30,
+          duration: 0.8,
+          ease: 'power2.out'
+        },
+        0.2
+      )
+
+      // Subtítulo aparece
+      tl.from(
+        subtitleRef.current,
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: 'power2.out'
+        },
+        0.4
+      )
+
+      // Sobre aparece con bounce
+      tl.from(
+        envelopeRef.current,
+        {
+          opacity: 0,
+          y: 50,
+          duration: 0.8,
+          ease: 'back.out'
+        },
+        0.6
+      )
+
+      // Botón aparece
+      tl.from(
+        buttonRef.current,
+        {
+          opacity: 0,
+          y: 20,
+          duration: 0.6,
+          ease: 'power2.out'
+        },
+        0.8
+      )
+
+      // Animación continua del sobre (flotar)
+      gsap.to(envelopeRef.current, {
+        y: -15,
+        duration: 2,
+        repeat: -1,
+        yoyo: true,
+        ease: 'sine.inOut'
+      })
+    })
+
+    return () => ctx.revert()
+  }, [])
 
   const handleOpen = () => {
     setIsOpening(true)
+
+    // Animación de apertura con GSAP
+    gsap.to(envelopeRef.current, {
+      opacity: 0,
+      scale: 0.8,
+      duration: 0.5,
+      ease: 'power2.in'
+    })
+
     setTimeout(() => {
       onOpen()
     }, 1500)
   }
 
-  // Confeti minimalista
-  const confettiPieces = Array.from({ length: 40 }).map((_, i) => ({
-    id: i,
-    color: [
-      'var(--primary-guinda)',
-      'var(--primary-gold)',
-      'var(--primary-guinda-light)',
-      'var(--bg-secondary)'
-    ][Math.floor(Math.random() * 4)],
-    delay: Math.random() * 0.2,
-    duration: 2.2 + Math.random() * 0.6,
-    xStart: (Math.random() - 0.5) * 80,
-    xEnd: (Math.random() - 0.5) * 280
-  }))
-
   return (
-    <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+    <div
+      ref={containerRef}
       style={{
         minHeight: '100vh',
-        background: 'var(--bg-primary)',
+        background: '#f5f1e8',
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         padding: '40px 20px',
+        opacity: 0,
         position: 'relative',
         overflow: 'hidden'
       }}
     >
-      {/* Confeti */}
-      <AnimatePresence>
-        {isOpening && confettiPieces.map((piece) => (
-          <motion.div
-            key={piece.id}
-            initial={{
-              x: 0,
-              y: 0,
-              rotate: 0,
-              scale: 1,
-              opacity: 1
-            }}
-            animate={{
-              x: piece.xEnd,
-              y: window.innerHeight + 100,
-              rotate: 360 + Math.random() * 360,
-              scale: 0,
-              opacity: 0
-            }}
-            transition={{
-              duration: piece.duration,
-              delay: piece.delay,
-              ease: "easeIn"
-            }}
+      {/* Confeti con GSAP */}
+      {isOpening &&
+        Array.from({ length: 60 }).map((_, i) => (
+          <div
+            key={i}
             style={{
               position: 'fixed',
-              width: Math.random() * 6 + 3 + 'px',
-              height: Math.random() * 6 + 3 + 'px',
-              borderRadius: Math.random() > 0.5 ? '50%' : '2px',
-              background: piece.color,
+              left: '50%',
+              top: '50%',
+              width: Math.random() * 8 + 4 + 'px',
+              height: Math.random() * 8 + 4 + 'px',
+              background: ['#8b1538', '#d4af37', '#a82d4a'][
+                Math.floor(Math.random() * 3)
+              ],
+              borderRadius: '50%',
               pointerEvents: 'none',
-              zIndex: 1,
-              left: 'calc(50% + ' + piece.xStart + 'px)',
-              top: 'calc(50% - 80px)'
+              zIndex: 1
+            }}
+            ref={(el) => {
+              if (el && isOpening) {
+                gsap.to(el, {
+                  x: (Math.random() - 0.5) * 500,
+                  y: window.innerHeight + 100,
+                  opacity: 0,
+                  duration: 2.5 + Math.random() * 0.8,
+                  delay: Math.random() * 0.3,
+                  ease: 'power1.in'
+                })
+              }
             }}
           />
         ))}
-      </AnimatePresence>
 
-      {/* Contenido Principal */}
-      <div style={{ position: 'relative', zIndex: 10, textAlign: 'center', maxWidth: '700px' }}>
-        <AnimatePresence>
-          {!isOpening && (
-            <motion.div
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -30 }}
-              transition={{ duration: 0.6 }}
+      {/* Contenedor principal */}
+      <div
+        style={{
+          position: 'relative',
+          zIndex: 10,
+          textAlign: 'center',
+          maxWidth: '700px'
+        }}
+      >
+        {/* Línea decorativa */}
+        <div
+          style={{
+            height: '2px',
+            width: '100px',
+            background: '#8b1538',
+            margin: '0 auto 30px',
+            borderRadius: '1px'
+          }}
+        />
+
+        {/* Texto pequeño decorativo */}
+        <p
+          style={{
+            fontSize: '14px',
+            letterSpacing: '3px',
+            textTransform: 'uppercase',
+            color: '#4a4a4a',
+            marginBottom: '20px',
+            fontWeight: 500,
+            fontFamily: "'Poppins', sans-serif",
+            margin: '0 0 20px 0'
+          }}
+        >
+          Con Amor Los Invitamos
+        </p>
+
+        {/* TÍTULO - SÓLIDO, NO GRADIENTE */}
+        <h1
+          ref={titleRef}
+          style={{
+            fontSize: 'clamp(2.5rem, 10vw, 5rem)',
+            fontFamily: "'Fredoka', sans-serif",
+            fontWeight: 700,
+            color: '#1a1a1a',
+            margin: '0 0 10px 0',
+            lineHeight: 1.1,
+            letterSpacing: '-1px'
+          }}
+        >
+          Chanita & Javier
+        </h1>
+
+        {/* Línea decorativa */}
+        <div
+          style={{
+            height: '3px',
+            width: '150px',
+            background: '#8b1538',
+            margin: '25px auto 30px',
+            borderRadius: '2px'
+          }}
+        />
+
+        {/* Subtítulo - SÓLIDO */}
+        <div
+          ref={subtitleRef}
+          style={{
+            marginBottom: '50px'
+          }}
+        >
+          <p
+            style={{
+              fontSize: '18px',
+              color: '#666666',
+              margin: '0 0 10px 0',
+              fontWeight: 300,
+              lineHeight: 1.6,
+              fontFamily: "'Poppins', sans-serif"
+            }}
+          >
+            Una doble celebración llena de amor
+          </p>
+          <p
+            style={{
+              fontSize: '16px',
+              color: '#8b1538',
+              fontWeight: 600,
+              margin: 0,
+              fontFamily: "'Poppins', sans-serif"
+            }}
+          >
+            8 de Agosto de 2026
+          </p>
+        </div>
+
+        {/* SOBRE - Elegante y minimalista */}
+        <div
+          ref={envelopeRef}
+          onClick={handleOpen}
+          style={{
+            width: '220px',
+            height: '140px',
+            background: 'white',
+            borderRadius: '4px',
+            boxShadow: '0 10px 40px rgba(0,0,0,0.12)',
+            position: 'relative',
+            margin: '40px auto',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            flexDirection: 'column',
+            border: '1px solid rgba(139, 21, 56, 0.1)'
+          }}
+        >
+          {/* Solapa decorativa */}
+          <div
+            style={{
+              position: 'absolute',
+              top: 0,
+              left: 0,
+              right: 0,
+              height: '50%',
+              background: '#8b1538',
+              borderRadius: '4px 4px 0 0',
+              opacity: 0.9
+            }}
+          />
+
+          {/* Contenido */}
+          <div
+            style={{
+              position: 'relative',
+              zIndex: 2,
+              textAlign: 'center'
+            }}
+          >
+            <div style={{ fontSize: '40px', marginBottom: '8px' }}>✉️</div>
+            <p
+              style={{
+                fontSize: '12px',
+                color: '#4a4a4a',
+                fontWeight: 500,
+                margin: 0,
+                fontFamily: "'Poppins', sans-serif"
+              }}
             >
-              {/* Línea decorativa superior */}
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.2, duration: 0.8 }}
-                style={{
-                  height: '2px',
-                  width: '80px',
-                  background: 'var(--primary-guinda)',
-                  margin: '0 auto 24px',
-                  transformOrigin: 'center'
-                }}
-              />
+              Toca para abrir
+            </p>
+          </div>
 
-              {/* Texto decorativo pequeño */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3 }}
-                style={{
-                  fontSize: '14px',
-                  letterSpacing: '3px',
-                  textTransform: 'uppercase',
-                  color: 'var(--text-subtitle)',
-                  marginBottom: '16px',
-                  fontWeight: 500,
-                  fontFamily: 'var(--font-body)'
-                }}
-              >
-                Con Amor Los Invitamos
-              </motion.p>
+          {/* Listón decorativo */}
+          <div
+            style={{
+              position: 'absolute',
+              left: '50%',
+              top: '50%',
+              transform: 'translate(-50%, -50%)',
+              width: '25px',
+              height: '140px',
+              background: '#8b1538',
+              opacity: 0.8,
+              zIndex: 1
+            }}
+          />
 
-              {/* TÍTULO PRINCIPAL - MUY GRANDE Y OSCURO */}
-              <motion.h1
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.4, duration: 0.8 }}
-                style={{
-                  fontSize: 'clamp(3rem, 8vw, 4.5rem)',
-                  fontFamily: 'var(--font-display)',
-                  fontWeight: 700,
-                  color: 'var(--text-title)',
-                  marginBottom: '8px',
-                  lineHeight: 1.2,
-                  letterSpacing: '-0.5px'
-                }}
-              >
-                Chanita & Javier
-              </motion.h1>
+          {/* Sello */}
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '15px',
+              right: '15px',
+              width: '45px',
+              height: '45px',
+              background: '#d4af37',
+              borderRadius: '50%',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              fontSize: '22px',
+              zIndex: 3,
+              boxShadow: '0 4px 12px rgba(212, 175, 55, 0.25)'
+            }}
+          >
+            ✓
+          </div>
+        </div>
 
-              {/* Línea decorativa debajo del título */}
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 0.5, duration: 0.8 }}
-                style={{
-                  height: '3px',
-                  width: '120px',
-                  background: 'var(--primary-guinda)',
-                  margin: '24px auto 32px',
-                  transformOrigin: 'center'
-                }}
-              />
+        {/* BOTÓN - Grande y prominente */}
+        <button
+          ref={buttonRef}
+          onClick={handleOpen}
+          style={{
+            marginTop: '50px',
+            padding: '16px 50px',
+            fontSize: '15px',
+            fontWeight: 700,
+            fontFamily: "'Fredoka', sans-serif",
+            background: '#8b1538',
+            color: 'white',
+            border: 'none',
+            borderRadius: '50px',
+            cursor: 'pointer',
+            boxShadow: '0 8px 25px rgba(139, 21, 56, 0.25)',
+            textTransform: 'uppercase',
+            letterSpacing: '1.2px',
+            transition: 'all 0.3s ease'
+          }}
+          onMouseEnter={(e) => {
+            gsap.to(e.target, {
+              scale: 1.08,
+              boxShadow: '0 12px 35px rgba(139, 21, 56, 0.35)',
+              duration: 0.3
+            })
+          }}
+          onMouseLeave={(e) => {
+            gsap.to(e.target, {
+              scale: 1,
+              boxShadow: '0 8px 25px rgba(139, 21, 56, 0.25)',
+              duration: 0.3
+            })
+          }}
+        >
+          Abre la Invitación
+        </button>
 
-              {/* Subtítulo */}
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.6 }}
-                style={{
-                  fontSize: '18px',
-                  color: 'var(--text-body)',
-                  marginBottom: '48px',
-                  fontWeight: 300,
-                  lineHeight: 1.6
-                }}
-              >
-                Una doble celebración llena de amor<br />
-                <span style={{ fontWeight: 500 }}>8 de Agosto de 2026</span>
-              </motion.p>
-
-              {/* SOBRE - PEQUEÑO Y CENTRADO (NO ES EL PROTAGONISTA) */}
-              <motion.div
-                animate={{ y: [0, -15, 0] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
-                style={{
-                  margin: '40px auto',
-                  cursor: 'pointer'
-                }}
-                onClick={handleOpen}
-              >
-                <motion.div
-                  whileHover={{ scale: 1.08 }}
-                  whileTap={{ scale: 0.95 }}
-                  style={{
-                    width: '200px',
-                    height: '130px',
-                    background: 'white',
-                    borderRadius: '4px',
-                    boxShadow: 'var(--shadow-lg)',
-                    position: 'relative',
-                    overflow: 'hidden',
-                    margin: '0 auto'
-                  }}
-                >
-                  {/* Solapa */}
-                  <motion.div
-                    animate={isOpening ? { rotateX: -180, y: -15 } : { rotateX: 0, y: 0 }}
-                    transition={{ duration: 0.7 }}
-                    style={{
-                      position: 'absolute',
-                      width: '100%',
-                      height: '50%',
-                      background: 'var(--primary-guinda)',
-                      transformOrigin: 'top',
-                      top: 0
-                    }}
-                  />
-
-                  {/* Contenido del sobre */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      width: '100%',
-                      height: '100%',
-                      display: 'flex',
-                      flexDirection: 'column',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      zIndex: 2
-                    }}
-                  >
-                    <div
-                      style={{
-                        fontSize: '32px',
-                        marginBottom: '8px'
-                      }}
-                    >
-                      ✉️
-                    </div>
-                    <p
-                      style={{
-                        fontSize: '12px',
-                        color: 'var(--text-subtitle)',
-                        fontWeight: 500
-                      }}
-                    >
-                      Toca para abrir
-                    </p>
-                  </div>
-
-                  {/* Listón */}
-                  <div
-                    style={{
-                      position: 'absolute',
-                      left: '50%',
-                      top: '50%',
-                      transform: 'translate(-50%, -50%)',
-                      width: '30px',
-                      height: '130px',
-                      background: 'var(--primary-guinda)',
-                      zIndex: 3
-                    }}
-                  />
-
-                  {/* Sello */}
-                  <motion.div
-                    animate={{ rotate: [0, 5, -5, 0] }}
-                    transition={{ duration: 1.5, repeat: Infinity }}
-                    style={{
-                      position: 'absolute',
-                      bottom: '12px',
-                      right: '12px',
-                      width: '40px',
-                      height: '40px',
-                      background: 'var(--primary-gold)',
-                      borderRadius: '50%',
-                      zIndex: 4,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      fontSize: '20px',
-                      boxShadow: 'var(--shadow-md)'
-                    }}
-                  >
-                    ✓
-                  </motion.div>
-                </motion.div>
-              </motion.div>
-
-              {/* BOTÓN GRANDE Y PROMINENTE */}
-              <motion.button
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.8 }}
-                whileHover={{ scale: 1.05, boxShadow: 'var(--shadow-xl)' }}
-                whileTap={{ scale: 0.95 }}
-                onClick={handleOpen}
-                style={{
-                  marginTop: '48px',
-                  padding: '16px 48px',
-                  fontSize: '16px',
-                  fontWeight: 700,
-                  fontFamily: 'var(--font-display)',
-                  background: 'var(--primary-guinda)',
-                  color: 'white',
-                  border: 'none',
-                  borderRadius: '50px',
-                  cursor: 'pointer',
-                  boxShadow: 'var(--shadow-lg)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '1px',
-                  transition: 'all 0.3s ease'
-                }}
-              >
-                Abre la Invitación
-              </motion.button>
-
-              {/* Línea decorativa inferior */}
-              <motion.div
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: 1 }}
-                transition={{ delay: 1, duration: 0.8 }}
-                style={{
-                  height: '2px',
-                  width: '80px',
-                  background: 'var(--primary-guinda)',
-                  margin: '48px auto 0',
-                  transformOrigin: 'center'
-                }}
-              />
-            </motion.div>
-          )}
-        </AnimatePresence>
+        {/* Línea decorativa final */}
+        <div
+          style={{
+            height: '2px',
+            width: '100px',
+            background: '#8b1538',
+            margin: '50px auto 0',
+            borderRadius: '1px'
+          }}
+        />
       </div>
-    </motion.div>
+    </div>
   )
 }
