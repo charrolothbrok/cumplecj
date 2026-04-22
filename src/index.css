@@ -1,12 +1,29 @@
 :root {
-  /* Paleta Guinda + Crema - Elegancia Premium */
-  --primary-guinda: #8b1538;
-  --primary-cream: #f5f1e8;
-  --primary-dark: #2c2c2c;
-  --primary-gold: #d4af37;
-  --accent-light-guinda: #a82d4a;
-  --accent-cream-dark: #e8dcc8;
-  --accent-gold-light: #e8c547;
+  /* PALETA FINAL - Guinda + Crema + Textos Oscuros */
+  
+  /* FONDOS */
+  --bg-primary: #f5f1e8;        /* Crema claro - FONDO PRINCIPAL */
+  --bg-secondary: #e8dcc8;      /* Crema oscuro - separadores */
+  --bg-white: #ffffff;          /* Blanco puro */
+  
+  /* TEXTOS */
+  --text-title: #1a1a1a;        /* Negro muy oscuro - TÍTULOS SUPER LEGIBLES */
+  --text-subtitle: #4a4a4a;     /* Gris oscuro - subtítulos */
+  --text-body: #666666;         /* Gris medio - texto normal */
+  --text-light: #888888;        /* Gris claro - texto light */
+  --text-white: #ffffff;        /* Blanco - en fondos oscuros */
+  
+  /* ACENTOS PRINCIPALES */
+  --primary-guinda: #8b1538;    /* Guinda profundo - BOTONES, LÍNEAS, ACENTOS */
+  --primary-guinda-light: #a82d4a; /* Guinda claro - HOVER */
+  
+  /* ACENTOS COMPLEMENTARIOS */
+  --primary-gold: #d4af37;      /* Dorado - pequeños detalles, sellos */
+  
+  /* SOMBRAS Y BORDES */
+  --shadow-light: rgba(0,0,0,0.08);
+  --shadow-medium: rgba(0,0,0,0.15);
+  --border-light: #e0e0e0;
   
   /* Neutros */
   --dark: #0F0F0F;
@@ -59,8 +76,8 @@ html {
 
 body {
   font-family: var(--font-body);
-  background: var(--light);
-  color: var(--text-primary);
+  background: var(--bg-primary);
+  color: var(--text-body);
   line-height: 1.6;
   overflow-x: hidden;
 }
@@ -115,31 +132,48 @@ button {
   background: var(--primary-guinda);
   color: white;
   box-shadow: var(--shadow-md);
+  border: none;
+  padding: 12px 32px;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-primary:hover {
-  transform: translateY(-2px);
+  background: var(--primary-guinda-light);
   box-shadow: var(--shadow-lg);
-  background: var(--accent-light-guinda);
+  transform: translateY(-2px);
 }
 
 .btn-secondary {
   background: var(--primary-gold);
-  color: var(--primary-dark);
+  color: var(--text-title);
   box-shadow: var(--shadow-md);
+  border: none;
+  padding: 12px 32px;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-secondary:hover {
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-lg);
   background: var(--primary-guinda);
   color: white;
+  box-shadow: var(--shadow-lg);
+  transform: translateY(-2px);
 }
 
 .btn-outline {
   background: transparent;
   border: 2px solid var(--primary-guinda);
   color: var(--primary-guinda);
+  padding: 10px 30px;
+  border-radius: var(--radius-lg);
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-outline:hover {
